@@ -2,9 +2,16 @@ import {Component} from 'angular2/core';
 
 @Component({
     selector: 'markdown',
-    template: '<div>My app is working!!!</div>'
+    templateUrl: 'app/markdownApp.html'
 })
 
 export class MarkdownAppComponent {
+
+    public html = '';
+
     constructor() {}
+
+    public updateValue(val:string) {
+        this.html = val;
+    }
 }
