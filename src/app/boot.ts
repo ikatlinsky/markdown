@@ -1,5 +1,8 @@
 import 'angular2/bundles/angular2-polyfills';
 import {bootstrap} from 'angular2/platform/browser';
-import {MarkdownAppComponent} from './app';
+import {MarkdownAppComponent} from './markdownApp';
 
-bootstrap(MarkdownAppComponent);
+
+import {LocalStorageService} from './services/localStorage.service'
+
+bootstrap(MarkdownAppComponent, [LocalStorageService]);

@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="one-half col">
+        <textarea #rawMarkdown (keyup)="updateValue(rawMarkdown.value)"></textarea>
+
+        <button class="button" (click)="saveMarkdown(rawMarkdown.value)">Save</button>
+        <button class="button" (click)="deleteMarkdown()">Delete</button>
+    </div>
+
+    <div class="one-half col">
+        <div [innerHtml]="html">{{ initVal }}</div>
+    </div>
+</div>
