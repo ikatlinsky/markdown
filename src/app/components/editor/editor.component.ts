@@ -1,30 +1,31 @@
-import {Component} from 'angular2/core';
+import {Component, Input} from 'angular2/core';
 
-import {LocalStorageService} from '../../services/localStorage.service';
+import {PostService} from '../../services/post.service';
 import {MarkdownService} from '../../services/markdown.service';
 
 @Component({
-    selector: 'markdown-editor',
+    selector: 'editor',
     templateUrl: '/app/components/editor/editor.component.html',
-    bindings: [MarkdownService]
+    bindings: [MarkdownService, PostService]
 })
 
-export class MarkdownEditorComponent {
+export class EditorComponent {
+
+    @Input() title: string;
 
     public html: string;
     public initVal: string;
 
-    private localStorage: LocalStorageService;
+    private postService: PostService;
     private md: MarkdownService;
-    private storageKey = 'markdown-app';
 
-    constructor(localStorageService: LocalStorageService, markdownService: MarkdownService) {
-        this.localStorage = localStorageService;
+    constructor(postService: PostService, markdownService: MarkdownService) {
+        this.postService = postService;
         this.md = markdownService;
 
         this.html = '';
 
-        const text = this.localStorage.retrieve(this.storageKey);
+        const text = this.postService.getPost('title');
         this.initVal = text ? text.text : '';
 
         this.updateValue(this.initVal);
@@ -34,11 +35,17 @@ export class MarkdownEditorComponent {
         this.html = this.md.convert(val);
     }
 
-    public saveMarkdown(val: any) {
-        this.localStorage.store(this.storageKey, { text: val });
+    public savePost(val: any) {
+        this.postService.savePost('title', val);
     }
 
-    public deleteMarkdown() {
-        this.localStorage.store(this.storageKey, {});
+    public deletePost() {
+        this.postService.deletePost('title');
+    }
+
+    ngAfterContentChecked() {
+      var text = this.postService.getPost(this.title);
+      this.initVal = text || '';
+      this.updateValue(this.initVal);
     }
 }
